@@ -27,8 +27,10 @@ displayMaxError BYTE "=> ERROR: Maximum allowable credit is $20.00. TRY AGAIN!",
 menuOpt1 BYTE "=> Your available balance is : $",0
 menuOpt2 BYTE "=> Please enter the amount you would like to add : $",0
 
+option2VALID BYTE "=> Credits added to account. . . ",0
+
 balance WORD 0		; initlize the balance to 0 
-MAXB	WORD 20		; max credit is 20 
+MAXB	DWORD 20	; max credit is 20 
 amount  WORD 0		; User's input 
 countGuesses WORD 0 ; user's total of guesses
 
@@ -42,7 +44,7 @@ menuERROR BYTE "ERROR: Invalid Input must be from 1-5. TRY AGAIN! ", 0
 main PROC
 
 read: 
-	call clrscr  ; 
+	call clrscr  ; clear screen 
 
 	mov edx,OFFSET mainMenu     ; calling the main menu
 	call WriteString			; displays the main menu
@@ -50,26 +52,11 @@ read:
 	;;;;;;;;;;;;;;   validate user input  menuChoice       ;;;;;;;;;;;;;;;;;;;
 
 	call ReadInt				; Now we need to read the user input 
-	cmp ax, 1
+	cmp eax, 1
 	jl badInput						
-	cmp ax, 5
-	ja badInput					; 
+	cmp eax, 5
+	ja badInput					
 	jno goodInput				; validates it 
-
-	;; if (user input == 1 ) ;;
-	cmp ax, 1
-	je option1					;  jump to option 1
-
-
-	cmp ax, 2
-	je option2					; jump to option 2
-
-
-	cmp ax, 3
-	je option3
-
-
-
 
 badInput: 
 	mov edx, OFFSET menuERROR	; display ERROR 
@@ -81,8 +68,20 @@ badInput:
 goodInput:
 	mov menuChoice, ax			; store good value
 
-	;;; move the balance to the registerr   ;;; 
-	;;; some how jump to option1            ;;;
+	
+	COMMENT !
+
+		Here we are going to check what the user inputed
+		and jump to where needed. 
+	!
+
+	cmp eax, 1
+	je option1					;  jump to option 1
+
+
+	cmp eax, 2
+	je option2					; jump to option 2
+
 
 
 	COMMENT !
@@ -96,42 +95,48 @@ option1:
 	call Clrscr
 	mov edx,OFFSET menuOpt1     ;calling the main menu
 	call WriteString
-	mov ax, balance				;
+	mov ax, balance				
 	call WriteDec				
+
+
+	mov eax, 2500				; delay 3 seconds 
+	call Delay
+
+	jmp read					; go back to main menu
+
 
 option2:
 	call Clrscr
 	mov edx,OFFSET menuOpt2    ;calling the main menu
 	call WriteString
 	
-	call ReadDec              ;grabbing user input
+grabInput:
 
-	;;NEED TO FIGURE OUT HOW TO ADD USE INPUT INTO BALANCE;;
-	;add balance, eax
+	call ReadDec               ;grabbing user input
 
-	cmp ax, 20				  ;input validation
-	ja aboveTwenty
+	cmp eax, 20			       ; if ( eax <=20 )	
+	jbe validAmount	
 
-aboveTwenty:
-	mov edx, OFFSET displayMaxError	; display ERROR 
+	
+	mov edx, OFFSET displayMaxError		; display ERROR 
 	call WriteString 
-	mov ax, 2000				; delay 2 seconds 
+	mov eax, 2000						; delay 2 seconds 
 	call Delay
-	jmp option2					; go input again
+	jmp option2							; go input again
 
-option3:
+validAmount:
+	
+	mov amount, ax                ; get the total amount 
+    add balance, ax            ; add the amount into balance 
 
+	
+	mov edx, OFFSET option2VALID		; display we got their amount  
+	call WriteString 
+	mov eax, 2000						; delay 2 seconds 
+	call Delay
 
+	jmp read 
 
-
-
-option4:
-
-
-
-
-
-option5: 
 
 
 exit
