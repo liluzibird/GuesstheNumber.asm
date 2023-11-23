@@ -42,7 +42,12 @@ menuERROR BYTE "ERROR: Invalid Input must be from 1-5. TRY AGAIN! ", 0
 
 randVal DWORD 10
 displayGuessMessage BYTE "Enter your guess: ",0
+displayLoseMessage BYTE "You lost!",0
 displayWinMessage BYTE "Congratulations, you guessed correctly!",0
+
+displayBrokeMessage BYTE "You need at least $1 to play.",0
+displayaskPlayAgain BYTE "Do you want to play again? [y/n]"
+
  
 .code
 main PROC
@@ -154,15 +159,24 @@ validAmount:
 option3:
 	;--------------Display Balance---------------------
 	call Clrscr
-	mov edx,OFFSET menuOpt1     ;calling the main menu
-	call WriteString
 	
+
+
+
+	;------------See if have money------------------
+
+	cmp balance, 0
+	je Broke
+
+
+	;---------------Take Fee---------------
+	sub balance, 1						; take $1 fee from balance 
+
 	;--------Generating Random Number-------
 	mov eax,0010
 	call RandomRange
 	inc eax
 	mov randVal,eax
-	call dumpRegs
 	mov eax, randVal
 	
 	call WriteDec				
@@ -173,7 +187,6 @@ option3:
 
 
 	;---------Grab user input---------------------
-	;displayGuessMessage
 	mov edx, OFFSET displayGuessMessage		; display Guess message
 
 	call WriteString 
@@ -191,9 +204,11 @@ option3:
 	;jump if equal WIN
 
 	je Win
+	mov edx, OFFSET displayLoseMessage	; display Lose message
 
 
-	mov eax, 2500				; delay 3 seconds 
+	call WriteString 
+	mov eax, 2000						; delay 2 seconds 
 	call Delay
 
 	
@@ -203,17 +218,46 @@ option3:
 
 
 
-
+	jmp askPlayAgain
 	jmp read					; go back to main menu
 
 
-Win:
-	mov edx, OFFSET displayWinMessage		; display Win message
-
+Broke:
+	mov edx, OFFSET displayBrokeMessage		; display Broke message
 	call WriteString 
 	mov eax, 2000						; delay 2 seconds 
 	call Delay
 	jmp read 
+
+Win:
+	mov edx, OFFSET displayWinMessage	; display Win message
+	add balance, 2						; add the amount into balance 
+
+
+	call WriteString 
+	mov eax, 2000						; delay 2 seconds 
+	call Delay
+	jmp askPlayAgain
+	jmp read
+
+
+askPlayAgain:
+	call Crlf
+	mov edx, OFFSET displayaskPlayAgain		; display play again message
+
+	call WriteString 
+	mov eax, 2000						; delay 2 seconds 
+	call Delay
+
+
+	;Grab user guess
+	mov al, 0
+
+	call readChar
+
+	cmp al, 'y'			       ; if ( al = 'y' )	
+
+	je option3	
 
 
 
