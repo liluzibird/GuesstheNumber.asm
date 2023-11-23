@@ -82,7 +82,16 @@ goodInput:
 	cmp eax, 2
 	je option2					; jump to option 2
 
+	
+	cmp eax, 3 
+	je option4					; jump to option 3
 
+	
+	cmp eax, 4 
+	je option5					; jump to option 4
+	
+	cmp eax, 5 
+	je option5					; jump to option 5
 
 	COMMENT !
 
@@ -137,6 +146,16 @@ validAmount:
 
 	jmp read 
 
+
+option3:
+
+
+option4:
+
+
+option5:
+	call Clrscr							; Clear Screen
+	exit								; exit
 
 
 exit
