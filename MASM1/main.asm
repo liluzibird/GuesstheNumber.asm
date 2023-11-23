@@ -29,6 +29,7 @@ menuOpt2 BYTE "=> Please enter the amount you would like to add : $",0
 
 option2VALID BYTE "=> Credits added to account. . . ",0
 
+
 balance WORD 0		; initlize the balance to 0 
 MAXB	DWORD 20	; max credit is 20 
 amount  WORD 0		; User's input 
@@ -39,6 +40,9 @@ menuChoice WORD ? 	;
 
 menuERROR BYTE "ERROR: Invalid Input must be from 1-5. TRY AGAIN! ", 0 
 
+randVal DWORD 10
+displayGuessMessage BYTE "Enter your guess: ",0
+displayWinMessage BYTE "Congratulations, you guessed correctly!",0
  
 .code
 main PROC
@@ -84,11 +88,11 @@ goodInput:
 
 	
 	cmp eax, 3 
-	je option4					; jump to option 3
+	je option3					; jump to option 3
 
 	
 	cmp eax, 4 
-	je option5					; jump to option 4
+	je option4					; jump to option 4
 	
 	cmp eax, 5 
 	je option5					; jump to option 5
@@ -135,8 +139,8 @@ grabInput:
 
 validAmount:
 	
-	mov amount, ax                ; get the total amount 
-    add balance, ax            ; add the amount into balance 
+	mov amount, ax				        ; get the total amount 
+    add balance, ax						; add the amount into balance 
 
 	
 	mov edx, OFFSET option2VALID		; display we got their amount  
@@ -148,6 +152,69 @@ validAmount:
 
 
 option3:
+	;--------------Display Balance---------------------
+	call Clrscr
+	mov edx,OFFSET menuOpt1     ;calling the main menu
+	call WriteString
+	
+	;--------Generating Random Number-------
+	mov eax,0010
+	call RandomRange
+	inc eax
+	mov randVal,eax
+	call dumpRegs
+	mov eax, randVal
+	
+	call WriteDec				
+
+
+	mov eax, 2500				; delay 3 seconds 
+	call Delay
+
+
+	;---------Grab user input---------------------
+	;displayGuessMessage
+	mov edx, OFFSET displayGuessMessage		; display Guess message
+
+	call WriteString 
+	mov eax, 2000						; delay 2 seconds 
+	call Delay
+	;Grab user guess
+	mov eax, 0
+	call readDec
+
+	;-----------Cmp Guess---------------
+
+	;Comparing random value with user guess
+	cmp eax, randVal
+	
+	;jump if equal WIN
+
+	je Win
+
+
+	mov eax, 2500				; delay 3 seconds 
+	call Delay
+
+	
+	;cmp with 
+
+
+
+
+
+
+	jmp read					; go back to main menu
+
+
+Win:
+	mov edx, OFFSET displayWinMessage		; display Win message
+
+	call WriteString 
+	mov eax, 2000						; delay 2 seconds 
+	call Delay
+	jmp read 
+
 
 
 option4:
