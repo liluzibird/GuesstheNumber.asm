@@ -41,6 +41,7 @@ menuChoice WORD ? 	;
 menuERROR BYTE "ERROR: Invalid Input must be from 1-5. TRY AGAIN! ", 0 
 
 randVal DWORD 10
+randomNumberMessage BYTE "Random number: ",0
 displayGuessMessage BYTE "Enter your guess: ",0
 displayLoseMessage BYTE "You lost!",0
 displayWinMessage BYTE "Congratulations, you guessed correctly!",0
@@ -179,7 +180,10 @@ option3:
 	mov randVal,eax
 	mov eax, randVal
 	
+	mov edx, OFFSET randomNumberMessage		; Display random number
+	call WriteString 
 	call WriteDec				
+	call Crlf
 
 
 	mov eax, 2500				; delay 3 seconds 
@@ -257,7 +261,9 @@ askPlayAgain:
 
 	cmp al, 'y'			       ; if ( al = 'y' )	
 
-	je option3	
+	je option3
+
+	jmp read					; go back to main menu
 
 
 
