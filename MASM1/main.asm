@@ -1,7 +1,7 @@
 ;--------------------------------------------------------------
 ;CMPR 154 - Fall 2023
 ;Team Name: Death Eaters
-;Team Member Names: Genesis Bejarano, Guadalupe Roman Sanchez, Albert H, Abby 
+;Team Member Names: Genesis Bejarano, Guadalupe Roman Sanchez, Albert H, Abby ,Atanacia (Tany) Sanchez ->Option 4
 ;Creation Date: 
 ;Collaboration: 
 ;
@@ -48,6 +48,29 @@ displayWinMessage BYTE "Congratulations, you guessed correctly!",0
 displayBrokeMessage BYTE "You need at least $1 to play.",0
 displayaskPlayAgain BYTE "Do you want to play again? [y/n]"
 
+;Option 4 variables
+
+;NameInput variables
+
+MAX_CHAR_INPUT = 15
+inputBuffer BYTE MAX_CHAR_INPUT + 1 DUP(?) ; extra byte for null terminator
+inputNamePrompt BYTE "Enter your name(15 characters MAX): ",0
+inputNameError BYTE "ERROR: Name must be less than 15 characters. TRY AGAIN!",0
+inputNameSuccess BYTE "Name successfully saved!",0
+
+
+;DisplayStats vaiables
+
+displayStatsMessage BYTE "Here are your stats ",0
+displayUnderlay BYTE "-------------------------",0
+displayName BYTE "Name: ",0
+displayAvailableCredit BYTE "Available Credit: ",0
+displayGamesPlayed BYTE "Games Played: ",0
+displayCorrectGuesses BYTE "Correct Guesses: ",0
+displayMissedGuesses BYTE "Missed Guesses: ",0
+displayMoneyWon BYTE "Money Won: ",0
+displayMoneyLost BYTE "Money Lost: ",0
+displayExit BYTE "Press any key to return to the main menu...",0
  
 .code
 main PROC
@@ -259,9 +282,9 @@ askPlayAgain:
 
 	je option3	
 
-
-
 option4:
+	call Clrscr
+	call inputName ;not sure if this is right?????????????????????????????????????????????
 
 
 option5:
@@ -272,4 +295,109 @@ option5:
 exit
 
 main endp
+
+inputName PROC
+
+	;display name prompt
+	mov edx,OFFSET inputNamePrompt     
+	call WriteString
+
+	;input name
+	mov eax,OFFSET inputBuffer ????eax?edx    
+	mov ecx,MAX_CHAR_INPUT
+	call ReadString
+	call crlf
+
+	;check if name is too long
+    cmp edx, MAX_CHAR_INPUT ; Compare length to MAX_CHAR_INPUT
+	jg inputNameError
+
+	;display success message
+	mov edx,OFFSET inputNameSuccess     
+	call WriteString
+	call crlf
+
+	;input a character to go to main menu
+	mov edx,OFFSET displayExit     
+	call WriteString
+	mov eax, 2500				 
+	call Delay
+	call ReadChar
+	jmp read					; go back to main menu
+
+	
+inputNameError:
+	;display error message
+	mov edx,OFFSET inputNameError
+	call WriteString
+	call crlf
+	jmp inputName
+
+	ret ; does ret go here?????????????????????????????????????????????????????????????
+inputName ENDP
+
+displayStats PROC
+
+	;display stats message
+	mov edx,OFFSET displayStatsMessage     
+	call WriteString
+	call crlf
+
+	;display underlay
+	mov edx,OFFSET displayUnderlay     
+	call WriteString
+	call crlf
+
+	;display name
+	mov edx,OFFSET displayName     
+	call WriteString
+	mov eax,OFFSET inputBuffer     ????eax??? 
+	call WriteString
+	call crlf
+
+	;display available credit
+	mov edx, OFFSET displayAvailableCredit     
+	call WriteString
+	mov ax, balance ??????????????displays 4 which is menu option but balance is stored in ax too?
+	call WriteDec
+	call crlf
+
+	;display games played
+	mov edx,OFFSET displayGamesPlayed
+	call WriteString
+	mov ax, countGuesses ???Displays 4 which is menu option??? where is countGuesses stored?
+	call WriteDec
+	call crlf
+
+	;display correct guesses
+	mov edx,OFFSET displayCorrectGuesses    
+	call WriteString
+	call crlf
+
+	;display missed guesses
+	mov edx,OFFSET displayMissedGuesses     
+	call WriteString
+	call crlf
+
+	;display money won
+	mov edx,OFFSET displayMoneyWon     
+	call WriteString
+	call crlf
+
+	;display money lost
+	mov edx,OFFSET displayMoneyLost     
+	call WriteString
+	call crlf
+
+	;display exit message
+	mov edx,OFFSET displayExit     
+	call WriteString
+	mov eax, 2500				 
+	call Delay
+	call ReadChar				; input a character to go to main menu
+	jmp read					; go back to main menu
+
+	ret
+displayStats ENDP
+
 end main
