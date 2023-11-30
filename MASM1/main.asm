@@ -71,7 +71,7 @@ read:
 badInput: 
 	mov edx, OFFSET menuERROR	; display ERROR 
 	call WriteString 
-	mov eax, 1500				; delay 3 seconds 
+	mov eax, 0				; delay 0 seconds 
 	call Delay
 	jmp read					; go input again
 
@@ -118,7 +118,7 @@ option1:
 	call WriteDec				
 
 
-	mov eax, 2500				; delay 3 seconds 
+	mov eax, 1000				; delay 1 seconds 
 	call Delay
 
 	jmp read					; go back to main menu
@@ -139,7 +139,7 @@ grabInput:
 	
 	mov edx, OFFSET displayMaxError		; display ERROR 
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 	jmp option2							; go input again
 
@@ -151,7 +151,7 @@ validAmount:
 	
 	mov edx, OFFSET option2VALID		; display we got their amount  
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 
 	jmp read 
@@ -186,7 +186,7 @@ option3:
 	call Crlf
 
 
-	mov eax, 2500				; delay 3 seconds 
+	mov eax, 0				; delay 0 seconds 
 	call Delay
 
 
@@ -194,7 +194,7 @@ option3:
 	mov edx, OFFSET displayGuessMessage		; display Guess message
 
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 	;Grab user guess
 	mov eax, 0
@@ -212,7 +212,7 @@ option3:
 
 
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 
 	
@@ -229,7 +229,7 @@ option3:
 Broke:
 	mov edx, OFFSET displayBrokeMessage		; display Broke message
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 	jmp read 
 
@@ -239,7 +239,7 @@ Win:
 
 
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 	jmp askPlayAgain
 	jmp read
@@ -250,7 +250,7 @@ askPlayAgain:
 	mov edx, OFFSET displayaskPlayAgain		; display play again message
 
 	call WriteString 
-	mov eax, 2000						; delay 2 seconds 
+	mov eax, 0						; delay 0 seconds 
 	call Delay
 
 
