@@ -229,7 +229,7 @@ option3:
 Broke:
 	mov edx, OFFSET displayBrokeMessage		; display Broke message
 	call WriteString 
-	mov eax, 1000						; delay 1 seconds
+	mov eax, 1000						; delay 1 second
 	call Delay
 	jmp read 
 
