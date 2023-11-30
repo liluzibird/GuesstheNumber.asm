@@ -1,7 +1,7 @@
 ;--------------------------------------------------------------
 ;CMPR 154 - Fall 2023
 ;Team Name: Death Eaters
-;Team Member Names: Genesis Bejarano, Guadalupe Roman Sanchez, Albert H, Abby 
+;Team Member Names: Genesis Bejarano, Guadalupe Roman Sanchez, Albert H, Abby, Atanacia (Tany) Sanchez
 ;Creation Date: 
 ;Collaboration: 
 ;
