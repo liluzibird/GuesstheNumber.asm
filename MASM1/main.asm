@@ -1,7 +1,7 @@
 ;--------------------------------------------------------------
 ;CMPR 154 - Fall 2023
 ;Team Name: Death Eaters
-;Team Member Names: Genesis Bejarano, Guadalupe Roman Sanchez, Albert H, Abby, Atanacia Tany Sanchez --->OPTION 4 + counters in OPTION 3
+;Team Member Names: Genesis Bejarano, Guadalupe Roman Sanchez, Albert H, Abby, Atanacia Tany Sanchez --->OPTION 4 & counters
 ;Creation Date: 
 ;Collaboration: 
 ;
@@ -44,7 +44,7 @@ randVal DWORD 10
 randomNumberMessage BYTE "Random number: ",0
 displayGuessMessage BYTE "Enter your guess: ",0
 displayLoseMessage BYTE "You lost!",0
-displayWinMessage BYTE "Congratulations, you guessed correctly! +$2",0
+displayWinMessage BYTE "Congratulations, you guessed correctly!",0
 
 displayBrokeMessage BYTE "You need at least $1 to play.",0
 displayaskPlayAgain BYTE "Do you want to play again? [y/n]",0
@@ -69,8 +69,8 @@ displayAvailableCredit BYTE "Available Credit: ",0
 displayGamesPlayed BYTE "Games Played: ",0
 displayCorrectGuesses BYTE "Correct Guesses: ",0
 displayMissedGuesses BYTE "Missed Guesses: ",0
-displayMoneyWon BYTE "Money Won: $",0
-displayMoneyLost BYTE "Money Lost: $",0
+displayMoneyWon BYTE "Money Won:$ ",0
+displayMoneyLost BYTE "Money Lost:$ ",0 ;
 displayExit BYTE "Press any key to return to the main menu...",0
 displayStatsEnterKey BYTE "Press any key to Display Stats....",0
 
@@ -151,7 +151,7 @@ option1:
 	call WriteDec				
 
 
-	mov eax, 1000				; delay 
+	mov eax, 2000				; delay 
 	call Delay
 
 	jmp read					; go back to main menu
@@ -193,7 +193,6 @@ validAmount:
 option3:
 	;--------------Display Balance---------------------
 	call Clrscr
-	add gamesPlayed, 1 ;counter
 	
 
 
@@ -202,9 +201,12 @@ option3:
 	cmp balance, 0
 	je Broke
 
+	;------------Game counter------------------
+
+	add gamesPlayed, 1 ;counter game played
 
 	;---------------Take Fee---------------
-	sub balance, 1						; take $1 fee from balance 
+	sub balance, 1						; take $1 fee from balance  ;instructions say no money subtracted
 
 	;--------Generating Random Number-------
 	mov eax,0010
@@ -213,14 +215,15 @@ option3:
 	mov randVal,eax
 	mov eax, randVal
 	
-	mov edx, OFFSET randomNumberMessage		; Display random number
-	call WriteString 
-	call WriteDec				
-	call Crlf
+	;check if random number is generated...Do not display in game
+	;mov edx, OFFSET randomNumberMessage		; Display random number
+	;call WriteString 
+	;call WriteDec				
+	;call Crlf
 
 
-	mov eax, 1000				; delay 1 second 
-	call Delay
+	;mov eax, 1500				; delay 3 seconds 
+	;call Delay
 
 
 	;---------Grab user input---------------------
@@ -242,7 +245,7 @@ option3:
 
 	je Win
 	add missedGuesses, 1 ; counter
-	mov edx, OFFSET displayLoseMessage	; display Lose message 
+	mov edx, OFFSET displayLoseMessage	; display Lose message
 	 
 	call WriteString 
 	mov eax, 1000						; delay 1 seconds 
@@ -273,7 +276,7 @@ Win:
 	add correctGuesses, 1 ;counter
 	mov edx, OFFSET displayWinMessage	; display Win message
 	call WriteString 
-	mov eax, 1000						; delay 1 seconds
+	mov eax, 1000						; delay 1 seconds 
 	call Delay
 	jmp askPlayAgain
 	jmp read
@@ -328,7 +331,7 @@ inputName:
 	mov edx, OFFSET inputNameSuccess
 	call WriteString
 	call Crlf
-	mov eax, 100				 
+	mov eax, 1500				 
 	call Delay
 
 	;display enter message to display stats
@@ -410,7 +413,7 @@ displayStats:
 	;display money lost
 	mov edx,OFFSET displayMoneyLost     
 	call WriteString
-	mov eax, missedGuesses
+	mov eax, gamesPlayed ;User loses money each time they play
 	call WriteDec
 	call crlf
 
