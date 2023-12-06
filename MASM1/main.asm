@@ -242,7 +242,7 @@ option3:
 
 	je Win
 	add missedGuesses, 1 ; counter
-	mov edx, OFFSET displayLoseMessage	; display Lose message
+	mov edx, OFFSET displayLoseMessage	; display Lose message 
 	 
 	call WriteString 
 	mov eax, 1000						; delay 1 seconds 
@@ -268,12 +268,12 @@ Broke:
 
 Win:
 	
-	add balance, 3						; add the amount into balance 
+	add balance, 2						; add the amount into balance 
 
 	add correctGuesses, 1 ;counter
 	mov edx, OFFSET displayWinMessage	; display Win message
 	call WriteString 
-	mov eax, 1000						; delay 1 seconds 
+	mov eax, 1000						; delay 1 seconds
 	call Delay
 	jmp askPlayAgain
 	jmp read
