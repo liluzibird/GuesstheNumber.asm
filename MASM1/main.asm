@@ -44,7 +44,7 @@ randVal DWORD 10
 randomNumberMessage BYTE "Random number: ",0
 displayGuessMessage BYTE "Enter your guess: ",0
 displayLoseMessage BYTE "You lost!",0
-displayWinMessage BYTE "Congratulations, you guessed correctly!",0
+displayWinMessage BYTE "Congratulations, you guessed correctly! +$2",0
 
 displayBrokeMessage BYTE "You need at least $1 to play.",0
 displayaskPlayAgain BYTE "Do you want to play again? [y/n]",0
@@ -104,7 +104,7 @@ read:
 badInput: 
 	mov edx, OFFSET menuERROR	; display ERROR 
 	call WriteString 
-	mov eax, 1000				; delay 1 seconds
+	mov eax, 1500				; delay 3 seconds 
 	call Delay
 	jmp read					; go input again
 
@@ -268,7 +268,7 @@ Broke:
 
 Win:
 	
-	add balance, 1						; add the amount into balance 
+	add balance, 3						; add the amount into balance 
 
 	add correctGuesses, 1 ;counter
 	mov edx, OFFSET displayWinMessage	; display Win message
@@ -328,13 +328,13 @@ inputName:
 	mov edx, OFFSET inputNameSuccess
 	call WriteString
 	call Crlf
-	mov eax, 1000				 
+	mov eax, 100				 
 	call Delay
 
 	;display enter message to display stats
 	mov edx,OFFSET displayStatsEnterKey    
 	call WriteString
-	mov eax, 1000				 
+	mov eax, 1500				 
 	call Delay
 	call ReadChar
 	jmp displayStats
@@ -345,7 +345,7 @@ ErrorName:
 	mov edx, OFFSET errorPrompt
 	call WriteString
 	call Crlf
-	mov eax, 1000				 
+	mov eax, 1500				 
 	call Delay
 	jmp inputName
 
@@ -417,7 +417,7 @@ displayStats:
 	;display exit message
 	mov edx,OFFSET displayExit     
 	call WriteString
-	mov eax, 1000				 
+	mov eax, 1500				 
 	call Delay
 	call ReadChar				; input a character to go to main menu
 	jmp read					; go back to main menu
