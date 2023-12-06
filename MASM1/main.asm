@@ -104,7 +104,7 @@ read:
 badInput: 
 	mov edx, OFFSET menuERROR	; display ERROR 
 	call WriteString 
-	mov eax, 1500				; delay 3 seconds 
+	mov eax, 1000				; delay 1 seconds
 	call Delay
 	jmp read					; go input again
 
@@ -151,7 +151,7 @@ option1:
 	call WriteDec				
 
 
-	mov eax, 2000				; delay 
+	mov eax, 1000				; delay 
 	call Delay
 
 	jmp read					; go back to main menu
@@ -219,7 +219,7 @@ option3:
 	call Crlf
 
 
-	mov eax, 1500				; delay 3 seconds 
+	mov eax, 1000				; delay 1 second 
 	call Delay
 
 
@@ -328,13 +328,13 @@ inputName:
 	mov edx, OFFSET inputNameSuccess
 	call WriteString
 	call Crlf
-	mov eax, 1500				 
+	mov eax, 1000				 
 	call Delay
 
 	;display enter message to display stats
 	mov edx,OFFSET displayStatsEnterKey    
 	call WriteString
-	mov eax, 1500				 
+	mov eax, 1000				 
 	call Delay
 	call ReadChar
 	jmp displayStats
@@ -345,7 +345,7 @@ ErrorName:
 	mov edx, OFFSET errorPrompt
 	call WriteString
 	call Crlf
-	mov eax, 1500				 
+	mov eax, 1000				 
 	call Delay
 	jmp inputName
 
@@ -417,7 +417,7 @@ displayStats:
 	;display exit message
 	mov edx,OFFSET displayExit     
 	call WriteString
-	mov eax, 1500				 
+	mov eax, 1000				 
 	call Delay
 	call ReadChar				; input a character to go to main menu
 	jmp read					; go back to main menu
