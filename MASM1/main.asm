@@ -262,11 +262,7 @@ option3:
 Broke:
 	mov edx, OFFSET displayBrokeMessage		; display Broke message
 	call WriteString 
-<<<<<<< Updated upstream
-	mov eax, 1000						; delay 1 second
-=======
 	mov eax, 1000						; delay 1 seconds 
->>>>>>> Stashed changes
 	call Delay
 	jmp read 
 
