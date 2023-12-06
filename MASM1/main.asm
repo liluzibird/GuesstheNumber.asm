@@ -69,8 +69,8 @@ displayAvailableCredit BYTE "Available Credit: ",0
 displayGamesPlayed BYTE "Games Played: ",0
 displayCorrectGuesses BYTE "Correct Guesses: ",0
 displayMissedGuesses BYTE "Missed Guesses: ",0
-displayMoneyWon BYTE "Money Won:$ ",0
-displayMoneyLost BYTE "Money Lost:$ ",0
+displayMoneyWon BYTE "Money Won: $",0
+displayMoneyLost BYTE "Money Lost: $",0
 displayExit BYTE "Press any key to return to the main menu...",0
 displayStatsEnterKey BYTE "Press any key to Display Stats....",0
 
